@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# go to root directory of git repo:
+_rdir=`git rev-parse --show-toplevel`
+cd $_rdir
+
+# make sure base.nes and working.nes exist:
+if [ ! -f ./base.nes ]
+then
+  echo "Base ROM (base.nes) is not found!"
+fi
