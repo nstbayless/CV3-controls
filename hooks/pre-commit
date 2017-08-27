@@ -18,13 +18,16 @@ then
   exit 2;
 fi
 
+echo "Checking if patch is up-to-date..."
+
 # generate patch
-./make-patch.sh .patch-prev.ips
+./make-patch.sh .patch-prev.ips >/dev/null
 
 if [ ! $? -eq 0 ]
 then
   chmod +wrx .patch-prev.ips
   rm .patch-prev.ips
+  echo "Unable to generate a patch for comparison"
   exit 2;
 fi
 
@@ -33,15 +36,17 @@ test=`diff patch.ips .patch-prev.ips`
 chmod +wrx .patch-prev.ips
 rm .patch-prev.ips
 
-if [ ! -z test ]
+if [ ! -z $test ]
 then
   echo "Cannot commit while patch.ips is not up-to-date!"
   echo "(Either run ./apply.sh to bring patch.ips up to date, or commit again with --no-verify)"
   exit 1;
 fi
 
+echo "Patch is up to date."
+
 # pause to read input if successful:
-sleep 0.5
+sleep 0.1
 
 exit 0
-
+;
