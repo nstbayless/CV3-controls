@@ -1,5 +1,7 @@
 ## Castlevania 3 Improved Controls Hack
 
+![All characters can now change direction in mid-air.](./screenshots/dirchange.gif)
+
 ### Using or Contributing to This Repository
 
 [Read instructions here.](./SETUP.md)
