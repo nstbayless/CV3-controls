@@ -1,10 +1,31 @@
 ## Castlevania 3 Improved Controls Hack
 
-### Contributing to this repository
+### Using or Contributing to This Repository
 
-Run the `setup.sh` script before starting in order to enable githooks.
+[Read instructions here.](./SETUP.md)
 
-You must supply your own ROM for Akumajou Densetsu (J). Paste the ROM 
+### About this hack
 
-CRC32 for ROM: 2E93CE72
-SHA-1: A0F3B31D4E3B0D2CA2E8A34F91F14AD99A5AD11F
+This hack modernizes the control scheme of Castlevania 3 to make it less frustrating to people used to tighter controls,
+including giving the player more control while jumping.
+
+> A godsend for CV3. Makes this frustrating game
+> tons more bearable and I recommend it if CV3’s
+> clunky controls pissed you off, which of course,
+> they did. Everything feels smooth and retains a
+> professional level of hacking skill. It feels as
+> if this was how the game was meant to be made
+> rather than most clunky hacks.
+
+- [ROMHacking.net user PROTOBlues](http://www.romhacking.net/reviews/2938/#review)
+
+**Complete list of changes**:
+
+- Enables all characters to control their x-velocity in mid-air while jumping (including while jump attacking); Grant’s jumping controls remain unchanged.
+- When releasing the jump button, one immediately starts falling again; this allows the player to make smaller hops if desired. (Does not apply to Grant.)
+- After being knocked back, the player regains control after a split second and can angle their fall.
+- When walking off an edge, the player retains control instead of dropping straight down.
+- All characters can jump off of stairs at any point in the climb (however, it is still impossible to land on stairs, so be careful
+	jumping from long flights of stairs over pits)
+
+Compatible with the English translation of Akumajou Densetsu located here: http://www.romhacking.net/hacks/1983/
