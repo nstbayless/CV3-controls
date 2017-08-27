@@ -6,9 +6,6 @@
 
 ### About this hack
 
-This hack modernizes the control scheme of Castlevania 3 to make it less frustrating to people used to tighter controls,
-including giving the player more control while jumping.
-
 > A godsend for CV3. Makes this frustrating game
 > tons more bearable and I recommend it if CV3’s
 > clunky controls pissed you off, which of course,
@@ -18,6 +15,9 @@ including giving the player more control while jumping.
 > rather than most clunky hacks.
 
 - [ROMHacking.net user PROTOBlues](http://www.romhacking.net/reviews/2938/#review)
+
+This hack modernizes the control scheme of Castlevania 3 to make it less frustrating to people used to tighter controls,
+including giving the player more control while jumping.
 
 **Complete list of changes**:
 
