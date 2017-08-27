@@ -24,5 +24,7 @@ Do not commit any .nes files to the repo which are not in the public domain!
 ### ROM details
 
 Akumajou Densetsu (J)
+
 CRC32: 2E93CE72
+
 SHA-1: A0F3B31D4E3B0D2CA2E8A34F91F14AD99A5AD11F
