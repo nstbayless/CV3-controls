@@ -26,7 +26,7 @@ chmod u+w $outdir 2>/dev/null
 
 rm $outdir 2>/dev/null
 
-$flips --create --ips base.nes working.nes $outdir
+$flips --create --ips base.nes working.nes "$outdir"
 err=$?
 
 chmod u+r $outdir

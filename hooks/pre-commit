@@ -38,11 +38,19 @@ test=`diff patch.ips .patch-prev.ips`
 chmod +wrx .patch-prev.ips
 rm .patch-prev.ips
 
-if [ ! -z $test ]
+if [ ! -z "$test" ]
 then
-  echo "Cannot commit while patch.ips is not up-to-date!"
-  echo "(Either run ./make-patch.sh to bring patch.ips up to date, or commit again with --no-verify)"
+  >&2 echo "Cannot commit while patch.ips is not up-to-date!"
+  >&2 echo "(Either run ./make-patch.sh to bring patch.ips up to date, or commit again with --no-verify)"
   exit 1;
+fi
+
+test=`git diff patch.ips`
+if [ ! -z "$test" ]
+then
+	>&2 echo "Warning: patch.ips is not staged for commit!"
+	>&2 echo "(Either git add patch.ips or commit again with --no-verify)"
+	exit 3;
 fi
 
 echo "Patch is up to date."
