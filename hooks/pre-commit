@@ -19,12 +19,29 @@ then
 fi
 
 # generate patch
-./make-patch.sh
+./make-patch.sh .patch-prev.ips
 
-# pause to read input if successful:
-if [ $? -eq 0 ]
+if [ ! $? -eq 0 ]
 then
-  sleep 0.5
+  chmod +wrx .patch-prev.ips
+  rm .patch-prev.ips
+  exit 2;
 fi
 
-exit $?
+test=`diff patch.ips .patch-prev.ips`
+
+chmod +wrx .patch-prev.ips
+rm .patch-prev.ips
+
+if [ ! -z test ]
+then
+  echo "Cannot commit while patch.ips is not up-to-date!"
+  echo "(Either run ./apply.sh to bring patch.ips up to date, or commit again with --no-verify)"
+  exit 1;
+fi
+
+# pause to read input if successful:
+sleep 0.5
+
+exit 0
+

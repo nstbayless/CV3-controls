@@ -3,6 +3,11 @@
 
 # find flips patcher:
 flips="./flips/flips.exe"
+outdir="patch.ips"
+if [ $# -eq 1 ]
+then
+  outdir="$1"
+fi
 
 if [ "$op" = "Linux" ]
 then
@@ -15,16 +20,16 @@ then
     exit 2;
 fi
 
-echo "Generating patch.ips..."
+echo "Generating $outdir..."
 
-chmod u+w patch.ips
+chmod u+w $outdir 2>/dev/null
 
-rm patch.ips
+rm $outdir 2>/dev/null
 
-$flips --create --ips base.nes working.nes patch.ips
+$flips --create --ips base.nes working.nes $outdir
 err=$?
 
-chmod u+r patch.ips
-chmod a-wx patch.ips
+chmod u+r $outdir
+chmod a-wx $outdir
 
 exit $?
