@@ -7,5 +7,18 @@ cd $_rdir
 # make sure base.nes and working.nes exist:
 if [ ! -f ./base.nes ]
 then
-  echo "Base ROM (base.nes) is not found!"
+  >&2 echo "Base ROM (base.nes) is not found! Aborting commit."
+  exit 1;
 fi
+
+if [ ! -f ./base.nes ]
+then
+  >&2 echo "Modified ROM (working.nes) is not found! Aborting commit."
+  >&2 echo "(Did you ever generate working.nes with apply.sh?)"
+  exit 2;
+fi
+
+# generate patch
+./make-patch.sh
+
+exit $?

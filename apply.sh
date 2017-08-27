@@ -1,4 +1,6 @@
 #!/bin/bash
+# applies the .ips patch to base.nes, generating working.nes
+# Run with -f flag to replace existing working.nes
 
 _force=false
 flips="./flips/flips.exe"
@@ -19,7 +21,8 @@ else
   then
     if [ "$_force" = false ]
     then
-      >&2 echo "working.nes already exists. Rerun with -f flag to force overwriting working.nes"
+      >&2 echo "Error: working.nes already exists."
+      >&2 echo "Rerun with -f flag to force overwriting working.nes"
       exit 1;
     else
       echo "Replacing existing working.nes"
@@ -49,6 +52,13 @@ else
   
   chmod u+x $flips
   
+  chmod u+wr working.nes
+  
   $flips --apply patch.ips working.nes
-  exit $?
+  err=$?
+  
+  chmod a-x working.nes
+  chmod u+wr working.nes
+  
+  exit $err
 fi

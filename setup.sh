@@ -23,6 +23,9 @@ else
   then
     echo "Warning: working.nes but no base.nes file; you will not be able to generate patches."
     echo "(Perhaps you should delete working.nes and copy in a new base.nes?)"
+  else
+    echo "No changes made to base.nes or working.nes"
+    echo "(If you intended to apply the patch now, then run ./apply.sh)"
   fi
 fi
 
