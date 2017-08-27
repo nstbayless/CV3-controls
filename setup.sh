@@ -1,6 +1,6 @@
 #!/bin/bash
-echo "Seting git hoooks directory to hooks/"
-git config core.hooksPath hooks
+echo "Copying in git hooks"
+cp -r hooks .git
 
 if [ -f base.nes ]
 then

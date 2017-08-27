@@ -21,4 +21,10 @@ fi
 # generate patch
 ./make-patch.sh
 
+# pause to read input if successful:
+if [ $? -eq 0 ]
+then
+  sleep 0.5
+fi
+
 exit $?
