@@ -8,13 +8,15 @@ cd $_rdir
 if [ ! -f ./base.nes ]
 then
   >&2 echo "Base ROM (base.nes) is not found! Aborting commit."
+  >&2 echo "Add a base.nes ROM or commit again with --no-verify"
   exit 1;
 fi
 
-if [ ! -f ./base.nes ]
+if [ ! -f ./working.nes ]
 then
   >&2 echo "Modified ROM (working.nes) is not found! Aborting commit."
   >&2 echo "(Did you ever generate working.nes with apply.sh?)"
+  >&2 echo "Generate working.nes or commit again with --no-verify"
   exit 2;
 fi
 
@@ -39,7 +41,7 @@ rm .patch-prev.ips
 if [ ! -z $test ]
 then
   echo "Cannot commit while patch.ips is not up-to-date!"
-  echo "(Either run ./apply.sh to bring patch.ips up to date, or commit again with --no-verify)"
+  echo "(Either run ./make-patch.sh to bring patch.ips up to date, or commit again with --no-verify)"
   exit 1;
 fi
 
