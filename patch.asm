@@ -136,40 +136,149 @@ BANK $7
 BASE $8000
 
 FROM $BF55
-    DB $18,$60,$38,$60,$A6,$06,$AD,$1C,$04,$E0,$02,$18,$30,$02,$E9,$10
-    DB $69,$0F,$4A,$4A,$4A,$4A,$EA,$EA,$18,$85,$08,$AD,$38,$04,$65,$53
-    DB $29,$F0,$85,$0B,$A5,$54,$69,$00,$85,$0C,$A5,$06,$29,$01,$F0,$32
-    DB $A0,$00,$B1,$66,$C9,$FF,$F0,$2A,$38,$29,$0F,$C5,$08,$D0,$1E,$38
-    DB $C8,$B1,$66,$E5,$0B,$D0,$17,$C8,$B1,$66,$38,$E5,$0C,$D0,$10,$88
-    DB $88,$B1,$66,$29,$F0,$C5,$11,$F0,$A7,$C5,$12,$F0,$A5,$C8,$C8,$C8
-    DB $10,$D0,$A6,$12,$A5,$08,$E0,$40,$F0,$0B,$E0,$00,$F0,$07,$38,$E9
-    DB $01,$90,$8D,$B0,$08,$18,$69,$01,$EA,$C9,$0F,$10,$83,$85,$08,$A5
-    DB $0B,$E0,$C0,$F0,$13,$E0,$00,$F0,$0F,$18,$69,$10,$85,$0B,$90,$05
-    DB $A4,$0C,$C8,$84,$0C,$4C,$85,$BF,$38,$E9,$10,$85,$0B,$B0,$F6,$A4
-    DB $0C,$88,$4C,$E8,$BF
+LBF55:
+    CLC
+    RTS
+LBF57:
+    SEC
+    RTS
+    LDX $06
+    LDA $041C
+    CPX #$02
+    CLC
+    BMI LBF65
+    SBC #$10
+LBF65:
+    ADC #$0F
+    LSR A
+    LSR A
+    LSR A
+    LSR A
+    NOP
+    NOP
+    CLC
+    STA $08
+    LDA $0438
+    ADC $53
+    AND #$F0
+    STA $0B
+    LDA $54
+    ADC #$00
+    STA $0C
+    LDA $06
+    AND #$01
+    BEQ LBFB7
+LBF85:
+    LDY #$00
+LBF87:
+    LDA ($66),Y
+    CMP #$FF
+    BEQ LBFB7
+    SEC
+    AND #$0F
+    CMP $08
+    BNE LBFB2
+    SEC
+    INY
+    LDA ($66),Y
+    SBC $0B
+    BNE LBFB3
+    INY
+    LDA ($66),Y
+    SEC
+    SBC $0C
+    BNE LBFB4
+    DEY
+    DEY
+    LDA ($66),Y
+    AND #$F0
+    CMP $11
+    BEQ LBF55
+    CMP $12
+    BEQ LBF57
+LBFB2:
+    INY
+LBFB3:
+    INY
+LBFB4:
+    INY
+    BPL LBF87
+LBFB7:
+    LDX $12
+    LDA $08
+    CPX #$40
+    BEQ LBFCA
+    CPX #$00
+    BEQ LBFCA
+    SEC
+    SBC #$01
+    BCC LBF55
+    BCS LBFD2
+LBFCA:
+    CLC
+    ADC #$01
+    NOP
+    CMP #$0F
+    BPL LBF55
+LBFD2:
+    STA $08
+    LDA $0B
+    CPX #$C0
+    BEQ LBFED
+    CPX #$00
+    BEQ LBFED
+    CLC
+    ADC #$10
+    STA $0B
+    BCC LBFEA
+    LDY $0C
+    INY
+LBFE8:
+    STY $0C
+LBFEA:
+    JMP LBF85
+LBFED:
+    SEC
+    SBC #$10
+    STA $0B
+    BCS LBFEA
+    LDY $0C
+    DEY
+    JMP LBFE8
 
 ; --------------------------------------------------------------------
 BANK $E
 BASE $8000
 
 FROM $8338
-    DB $EA,$EA,$20,$66,$BF
+    NOP
+    NOP
+    JSR $BF66
 
 FROM $937E
-    DB $3E,$BF
+    DW $BF3E
     
 FROM $9430
-    DB $C6,$BF
+    DW $BFC6
 
 FROM $94CA
-    DB $C6,$BF
+    DW $BFC6
     
 FROM $95F1
-    DB $D0,$04,$EA,$EA
+    DB $D0,$04
+    NOP
+    NOP
     
 FROM $9629
-    DB $A9,$FF,$8D,$20,$05,$EA,$A9,$16,$8D,$00,$04,$A9,$00,$8D,$C1,$05
-    DB $A9,$09,$8D
+    LDA #$FF
+    STA $0520
+    NOP
+    LDA #$16
+    STA $0400
+    LDA #$00
+    STA $05C1
+    LDA #$09
+    DB $8D
     
 FROM $9645
     DB $2A
@@ -184,8 +293,21 @@ FROM $9750
     DB $08
 
 FROM $9757
-    DB $1C,$9D,$D8,$05,$A9,$16,$8D,$00,$04,$A9,$00,$9D,$C1,$05,$8D,$09
-    DB $05,$60,$A5,$2A,$29,$03,$60,$FF,$FF,$FF,$FF,$FF,$60,$A5,$28,$60
+    DB $1C
+    STA $05D8,X
+    LDA #$16
+    STA $0400
+    LDA #$00
+    STA $05C1,X
+    STA $0509
+    RTS
+    LDA $2A
+    AND #$03
+    RTS
+    DB $FF,$FF,$FF,$FF,$FF
+    RTS
+    LDA $28
+    RTS
 
 FROM $97A7
     DB $CE
@@ -194,37 +316,153 @@ FROM $9921
     DB $E9,$BF
 
 FROM $99A4
-    DB $20,$CC,$BF,$EA
+    JSR $BFCC
+    NOP
     
 FROM $9AAC
-    DB $CC,$BF
+    DW $BFCC
 
 FROM $9C21
-    DB $3E,$BF
+    DW $BF3E
 
 FROM $A5A3
-    DB $3E,$BF
+    DW $BF3E
 
 FROM $BF39
-    DB $A9,$01,$9D,$F2,$04,$A9,$97,$48,$A9,$76,$48,$20,$DE,$FF,$A0,$00
-    DB $A5,$2A,$29,$03,$F0,$71,$20,$69,$97,$F0,$56,$4A,$90,$05,$C8,$8C
-    DB $F2,$04,$88,$F0,$3B,$88,$8C,$F2,$04,$A0,$01,$10,$33,$A5,$4A,$F0
-    DB $29,$AD,$20,$05,$30,$19,$A9,$08,$8D,$65,$05,$A5,$49,$F0,$13,$A5
-    DB $48,$C9,$02,$D0,$0D,$A9,$38,$8D,$D8,$05,$A9,$16,$8D,$00,$04,$4C
-    DB $93,$BF,$A9,$1C,$8D,$D8,$05,$B9,$89,$A6,$A9,$08,$AC,$F2,$04,$60
-    DB $AD,$65,$05,$C9,$08,$D0,$0A,$AD,$00,$04,$C9,$10,$F0,$03,$8C,$A8
-    DB $04,$A5,$2A,$29,$80,$D0,$0F,$AD,$20,$05,$10,$0A,$A9,$1C,$8D,$D8
-    DB $05,$A9,$00,$8D,$20,$05,$60,$8D,$F2,$04,$4C,$AA,$BF,$20,$44,$BF
-    DB $4C,$A3,$97,$A5,$28,$29,$80,$F0,$08,$A9,$06,$8D,$65,$05,$68,$68
-    DB $60,$AD,$65,$05,$C9,$14,$F0,$05,$A5,$2A,$29,$40,$60,$4C,$43,$9A
-    DB $A5,$2A,$4A,$90,$05,$A2,$00,$8E,$A8,$04,$4A,$90,$05,$A2,$01,$8E
-    DB $A8,$04,$4C,$0C,$84
+    LDA #$01
+    STA $04F2,X
+    LDA #$97
+    PHA
+    LDA #$76
+    PHA
+LBF44:
+    JSR $FFDE
+    LDY #$00
+    LDA $2A
+    AND #$03
+    BEQ LBFC0
+    JSR $9769
+    BEQ LBFAA
+    LSR A
+    BCC LBF5C
+    INY
+    STY $04F2
+    DEY
+LBF5C:
+    BEQ LBF99
+    DEY
+    STY $04F2
+    LDY #$01
+    BPL LBF99
+    LDA $4A
+    BEQ LBF93
+    LDA $0520
+    BMI LBF88
+    LDA #$08
+    STA $0565
+    LDA $49
+    BEQ LBF8B
+    LDA $48
+    CMP #$02
+    BNE LBF8B
+    LDA #$38
+    STA $05D8
+    LDA #$16
+    STA $0400
+LBF88:
+    JMP LBF93
+LBF8B:
+    LDA #$1C
+    STA $05D8
+    LDA $A689,Y
+LBF93:
+    LDA #$08
+    LDY $04F2
+    RTS
+LBF99:
+    LDA $0565
+    CMP #$08
+    BNE LBFAA
+    LDA $0400
+    CMP #$10
+    BEQ LBFAA
+    STY $04A8
+LBFAA:
+    LDA $2A
+    AND #$80
+    BNE LBFBF
+    LDA $0520
+    BPL LBFBF
+    LDA #$1C
+    STA $05D8
+    LDA #$00
+    STA $0520
+LBFBF:
+    RTS
+LBFC0:
+    STA $04F2
+    JMP LBFAA
+    JSR LBF44
+    JMP $97A3
+    LDA $28
+    AND #$80
+    BEQ LBFDA
+    LDA #$06
+    STA $0565
+    PLA
+    PLA
+    RTS
+LBFDA:
+    LDA $0565
+    CMP #$14
+    BEQ LBFE6
+    LDA $2A
+    AND #$40
+    RTS
+LBFE6:
+    JMP $9A43
+    LDA $2A
+    LSR A
+    BCC LBFF3
+    LDX #$00
+    STX $04A8
+LBFF3:
+    LSR A
+    BCC LBFFB
+    LDX #$01
+    STX $04A8
+LBFFB:
+    JMP $840C
 
 ; --------------------------------------------------------------------
 BANK $F
 BASE $C000
 
 FROM $FFC4
-    DB $A9,$05,$A2,$BF,$A0,$06,$85,$05,$A5,$23,$48,$A9,$FF,$48,$A9,$A5
-    DB $48,$8A,$48,$98,$48,$A5,$05,$4C,$D0,$E2,$20,$C4,$FF,$AD,$65,$05
-    DB $C9,$12,$D0,$04,$68,$68,$68,$68,$60
+LFFC4:    
+    LDA #$05
+    LDX #$BF
+    LDY #$06
+    STA $05
+    LDA $23
+    PHA
+    LDA #$FF
+    PHA
+    LDA #$A5
+    PHA
+    TXA
+    PHA
+    TYA
+    PHA
+    LDA $05
+    JMP $E2D0
+    JSR LFFC4
+    LDA $0565
+    CMP #$12
+    BNE LFFEC
+    PLA
+    PLA
+    PLA
+    PLA
+LFFEC:
+    RTS
