@@ -1,5 +1,7 @@
-base.nes
-working.nes
-edit.nes
+*.nes
 .patch-prev.ips
 *.dbg
+inc-base.asm
+*.map
+*.cdl
+*.nl
