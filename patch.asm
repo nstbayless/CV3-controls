@@ -9,6 +9,7 @@ BANK $5
 BASE $8000
 
 FROM $BF07
+staircheck:
     LDY #$00
     STY hspfra
     LDA vspint
@@ -31,21 +32,21 @@ LBF12:
     NOP
     NOP
     LDX #$00
-LBF2A:
+stair_loop_start:
     TXA
     PHA
-    JSR After_Table_FB44
+    JSR disp_check_diagonals
     PLA
-    BCC LBF38
+    BCC +
     CMP #$02
     BPL LBF9A
-    BMI LBF5D
-LBF38:
+    BMI land
++
     NOP
     TAX
     INX
     CPX #$04
-    BMI LBF2A
+    BMI stair_loop_start
     RTS
 
 Table_BF40:
@@ -53,7 +54,7 @@ Table_BF40:
 Table_BF44:
     DB $80,$00,$40,$C0
 
-After_Table_FB44
+disp_check_diagonals:
     LDA Table_BF40,X
     STA $11
     LDA Table_BF44,X
@@ -63,7 +64,7 @@ After_Table_FB44
     LDY #$58
     LDA #$07
     JMP $FFCA
-LBF5D:
+land:
     LDA #$12
     STA simon_state
     LDX #$0A
@@ -138,10 +139,10 @@ BANK $7
 BASE $8000
 
 FROM $BF55
-LBF55:
+__return_false:
     CLC
     RTS
-LBF57:
+__return_true:
     SEC
     RTS
     LDX $06
@@ -195,9 +196,9 @@ LBF87:
     LDA (stairs),Y
     AND #$F0
     CMP $11
-    BEQ LBF55
+    BEQ $BF55
     CMP $12
-    BEQ LBF57
+    BEQ $BF57
 LBFB2:
     INY
 LBFB3:
@@ -214,14 +215,14 @@ LBFB7:
     BEQ LBFCA
     SEC
     SBC #$01
-    BCC LBF55
+    BCC $BF55
     BCS LBFD2
 LBFCA:
     CLC
     ADC #$01
     NOP
     CMP #$0F
-    BPL LBF55
+    BPL $BF55
 LBFD2:
     STA tmp_y
     LDA tmp_x
@@ -270,6 +271,7 @@ FROM $95F1
     DB $D0,$04
     NOP
     NOP
+__walk_to_stair_right
     
 FROM $9629
     LDA #$FF
@@ -333,6 +335,7 @@ FROM $A5A3
 FROM $BF39
     LDA #$01
     STA hspint,X
+custom_jump:
     LDA #$97
     PHA
     LDA #$76
@@ -342,22 +345,24 @@ LBF44:
     LDY #$00
     LDA control_held
     AND #$03
-    BEQ LBFC0
+    BEQ hstall
     JSR $9769
-    BEQ LBFAA
+    BEQ check_vstall
     LSR A
-    BCC LBF5C
+    BCC __turn_left
+__turn_right:
     INY
     STY hspint
     DEY
-LBF5C:
-    BEQ LBF99
+__turn_left:
+    BEQ __jumping_contd
     DEY
     STY hspint
     LDY #$01
-    BPL LBF99
+    BPL __jumping_contd
+custom_knockback:
     LDA $4A
-    BEQ LBF93
+    BEQ __return_to_knockback
     LDA vspint
     BMI LBF88
     LDA #tmp_y
@@ -372,24 +377,24 @@ LBF5C:
     LDA #$16
     STA imgsin
 LBF88:
-    JMP LBF93
+    JMP __return_to_knockback
 LBF8B:
     LDA #$1C
     STA vsp_control
     LDA $A689,Y
-LBF93:
+__return_to_knockback:
     LDA #tmp_y
     LDY hspint
     RTS
-LBF99:
+__jumping_contd:
     LDA simon_state
     CMP #tmp_y
-    BNE LBFAA
+    BNE check_vstall
     LDA imgsin
     CMP #$10
-    BEQ LBFAA
+    BEQ check_vstall
     STY facing
-LBFAA:
+check_vstall:
     LDA control_held
     AND #$80
     BNE LBFBF
@@ -401,20 +406,22 @@ LBFAA:
     STA vspint
 LBFBF:
     RTS
-LBFC0:
+hstall:
     STA hspint
-    JMP LBFAA
+    JMP check_vstall
+jumping_attack:
     JSR LBF44
     JMP $97A3
+stair_jumping:
     LDA control_pressed
     AND #$80
-    BEQ LBFDA
+    BEQ __recover_step
     LDA #$06
     STA simon_state
     PLA
     PLA
     RTS
-LBFDA:
+__recover_step:
     LDA simon_state
     CMP #$14
     BEQ LBFE6
@@ -423,6 +430,7 @@ LBFDA:
     RTS
 LBFE6:
     JMP $9A43
+crouch_direction:
     LDA control_held
     LSR A
     BCC LBFF3
