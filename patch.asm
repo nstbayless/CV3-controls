@@ -2,19 +2,21 @@
 
 include "pre.asm"
 
+include "ram.asm"
+
 ; --------------------------------------------------------------------
 BANK $5
 BASE $8000
 
 FROM $BF07
     LDY #$00
-    STY $0509
-    LDA $0520
+    STY hspfra
+    LDA vspint
     BPL LBF12
 LBF11:
     RTS
 LBF12:
-    LDA $2A
+    LDA control_held
     AND #$04
     BNE LBF11
     LDX #$10
@@ -63,27 +65,27 @@ After_Table_FB44
     JMP $FFCA
 LBF5D:
     LDA #$12
-    STA $0565
+    STA simon_state
     LDX #$0A
-    LDA $04A8
+    LDA facing
     BNE LBF6B
     INX
     INX
 LBF6B:
-    STX $0400
+    STX imgsin
     LDA #$00
-    STA $05EF
+    STA stair_direction
     SEC
-    SBC $0438
+    SBC xint
     SEC
-    SBC $53
+    SBC view_pix
     AND #$0F
     BNE LBF81
     CLC
     ADC #$10
 LBF81:
-    STA $0B
-    LDA $041C
+    STA tmp_x
+    LDA yint
     TAX
     AND #$0F
     BNE LBF90
@@ -95,31 +97,31 @@ LBF90:
     TXA
     AND #$F0
     CLC
-    ADC $0B
-    STA $041C
+    ADC tmp_x
+    STA yint
     RTS
 LBF9A:
     LDA #$12
-    STA $0565
+    STA simon_state
     LDX #$0A
-    LDA $04A8
+    LDA facing
     BEQ LBFA8
     INX
     INX
 LBFA8:
-    STX $0400
+    STX imgsin
     LDA #$01
-    STA $05EF
+    STA stair_direction
     LDA #$00
     SEC
-    SBC $0438
+    SBC xint
     SEC
-    SBC $53
+    SBC view_pix
     CLC
     AND #$0F
-    STA $0B
+    STA tmp_x
     TAX
-    LDA $041C
+    LDA yint
     AND #$F0
     CPX #$00
     CLC
@@ -127,8 +129,8 @@ LBFA8:
     ADC #$10
 LBFCB:
     SEC
-    SBC $0B
-    STA $041C
+    SBC tmp_x
+    STA yint
     RTS
 
 ; --------------------------------------------------------------------
@@ -143,7 +145,7 @@ LBF57:
     SEC
     RTS
     LDX $06
-    LDA $041C
+    LDA yint
     CPX #$02
     CLC
     BMI LBF65
@@ -157,40 +159,40 @@ LBF65:
     NOP
     NOP
     CLC
-    STA $08
-    LDA $0438
-    ADC $53
+    STA tmp_y
+    LDA xint
+    ADC view_pix
     AND #$F0
-    STA $0B
-    LDA $54
+    STA tmp_x
+    LDA view_subroom
     ADC #$00
-    STA $0C
+    STA tmp_xscreen
     LDA $06
     AND #$01
     BEQ LBFB7
 LBF85:
     LDY #$00
 LBF87:
-    LDA ($66),Y
+    LDA (stairs),Y
     CMP #$FF
     BEQ LBFB7
     SEC
     AND #$0F
-    CMP $08
+    CMP tmp_y
     BNE LBFB2
     SEC
     INY
-    LDA ($66),Y
-    SBC $0B
+    LDA (stairs),Y
+    SBC tmp_x
     BNE LBFB3
     INY
-    LDA ($66),Y
+    LDA (stairs),Y
     SEC
-    SBC $0C
+    SBC tmp_xscreen
     BNE LBFB4
     DEY
     DEY
-    LDA ($66),Y
+    LDA (stairs),Y
     AND #$F0
     CMP $11
     BEQ LBF55
@@ -205,7 +207,7 @@ LBFB4:
     BPL LBF87
 LBFB7:
     LDX $12
-    LDA $08
+    LDA tmp_y
     CPX #$40
     BEQ LBFCA
     CPX #$00
@@ -221,28 +223,28 @@ LBFCA:
     CMP #$0F
     BPL LBF55
 LBFD2:
-    STA $08
-    LDA $0B
+    STA tmp_y
+    LDA tmp_x
     CPX #$C0
     BEQ LBFED
     CPX #$00
     BEQ LBFED
     CLC
     ADC #$10
-    STA $0B
+    STA tmp_x
     BCC LBFEA
-    LDY $0C
+    LDY tmp_xscreen
     INY
 LBFE8:
-    STY $0C
+    STY tmp_xscreen
 LBFEA:
     JMP LBF85
 LBFED:
     SEC
     SBC #$10
-    STA $0B
+    STA tmp_x
     BCS LBFEA
-    LDY $0C
+    LDY tmp_xscreen
     DEY
     JMP LBFE8
 
@@ -271,10 +273,10 @@ FROM $95F1
     
 FROM $9629
     LDA #$FF
-    STA $0520
+    STA vspint
     NOP
     LDA #$16
-    STA $0400
+    STA imgsin
     LDA #$00
     STA $05C1
     LDA #$09
@@ -294,19 +296,19 @@ FROM $9750
 
 FROM $9757
     DB $1C
-    STA $05D8,X
+    STA vsp_control,X
     LDA #$16
-    STA $0400
+    STA imgsin
     LDA #$00
     STA $05C1,X
-    STA $0509
+    STA hspfra
     RTS
-    LDA $2A
+    LDA control_held
     AND #$03
     RTS
     DB $FF,$FF,$FF,$FF,$FF
     RTS
-    LDA $28
+    LDA control_pressed
     RTS
 
 FROM $97A7
@@ -330,7 +332,7 @@ FROM $A5A3
 
 FROM $BF39
     LDA #$01
-    STA $04F2,X
+    STA hspint,X
     LDA #$97
     PHA
     LDA #$76
@@ -338,7 +340,7 @@ FROM $BF39
 LBF44:
     JSR $FFDE
     LDY #$00
-    LDA $2A
+    LDA control_held
     AND #$03
     BEQ LBFC0
     JSR $9769
@@ -346,91 +348,91 @@ LBF44:
     LSR A
     BCC LBF5C
     INY
-    STY $04F2
+    STY hspint
     DEY
 LBF5C:
     BEQ LBF99
     DEY
-    STY $04F2
+    STY hspint
     LDY #$01
     BPL LBF99
     LDA $4A
     BEQ LBF93
-    LDA $0520
+    LDA vspint
     BMI LBF88
-    LDA #$08
-    STA $0565
+    LDA #tmp_y
+    STA simon_state
     LDA $49
     BEQ LBF8B
     LDA $48
     CMP #$02
     BNE LBF8B
     LDA #$38
-    STA $05D8
+    STA vsp_control
     LDA #$16
-    STA $0400
+    STA imgsin
 LBF88:
     JMP LBF93
 LBF8B:
     LDA #$1C
-    STA $05D8
+    STA vsp_control
     LDA $A689,Y
 LBF93:
-    LDA #$08
-    LDY $04F2
+    LDA #tmp_y
+    LDY hspint
     RTS
 LBF99:
-    LDA $0565
-    CMP #$08
+    LDA simon_state
+    CMP #tmp_y
     BNE LBFAA
-    LDA $0400
+    LDA imgsin
     CMP #$10
     BEQ LBFAA
-    STY $04A8
+    STY facing
 LBFAA:
-    LDA $2A
+    LDA control_held
     AND #$80
     BNE LBFBF
-    LDA $0520
+    LDA vspint
     BPL LBFBF
     LDA #$1C
-    STA $05D8
+    STA vsp_control
     LDA #$00
-    STA $0520
+    STA vspint
 LBFBF:
     RTS
 LBFC0:
-    STA $04F2
+    STA hspint
     JMP LBFAA
     JSR LBF44
     JMP $97A3
-    LDA $28
+    LDA control_pressed
     AND #$80
     BEQ LBFDA
     LDA #$06
-    STA $0565
+    STA simon_state
     PLA
     PLA
     RTS
 LBFDA:
-    LDA $0565
+    LDA simon_state
     CMP #$14
     BEQ LBFE6
-    LDA $2A
+    LDA control_held
     AND #$40
     RTS
 LBFE6:
     JMP $9A43
-    LDA $2A
+    LDA control_held
     LSR A
     BCC LBFF3
     LDX #$00
-    STX $04A8
+    STX facing
 LBFF3:
     LSR A
     BCC LBFFB
     LDX #$01
-    STX $04A8
+    STX facing
 LBFFB:
     JMP $840C
 
@@ -457,7 +459,7 @@ LFFC4:
     LDA $05
     JMP $E2D0
     JSR LFFC4
-    LDA $0565
+    LDA simon_state
     CMP #$12
     BNE LFFEC
     PLA
