@@ -6,20 +6,130 @@ include "pre.asm"
 BANK $5
 BASE $8000
 
-FROM $Bf07
-    DB $A0,$00,$8C,$09,$05,$AD,$20,$05,$10,$01,$60,$A5,$2A,$29,$04,$D0
-    DB $F9,$A2,$10,$A9,$00,$20,$DE,$FC,$D0,$F0,$EA,$EA,$EA,$EA,$EA,$EA
-    DB $EA,$A2,$00,$8A,$48,$20,$48,$BF,$68,$90,$06,$C9,$02,$10,$64,$30
-    DB $25,$EA,$AA,$E8,$E0,$04,$30,$EB,$60,$00,$80,$C0,$40,$80,$00,$40
-    DB $C0,$BD,$40,$BF,$85,$11,$BD,$44,$BF,$85,$12,$86,$06,$A2,$BF,$A0
-    DB $58,$A9,$07,$4C,$CA,$FF,$A9,$12,$8D,$65,$05,$A2,$0A,$AD,$A8,$04
-    DB $D0,$02,$E8,$E8,$8E,$00,$04,$A9,$00,$8D,$EF,$05,$38,$ED,$38,$04
-    DB $38,$E5,$53,$29,$0F,$D0,$03,$18,$69,$10,$85,$0B,$AD,$1C,$04,$AA
-    DB $29,$0F,$D0,$05,$8A,$38,$E9,$10,$AA,$8A,$29,$F0,$18,$65,$0B,$8D
-    DB $1C,$04,$60,$A9,$12,$8D,$65,$05,$A2,$0A,$AD,$A8,$04,$F0,$02,$E8
-    DB $E8,$8E,$00,$04,$A9,$01,$8D,$EF,$05,$A9,$00,$38,$ED,$38,$04,$38
-    DB $E5,$53,$18,$29,$0F,$85,$0B,$AA,$AD,$1C,$04,$29,$F0,$E0,$00,$18
-    DB $F0,$02,$69,$10,$38,$E5,$0B,$8D,$1C,$04,$60
+FROM $BF07
+    LDY #$00
+    STY $0509
+    LDA $0520
+    BPL LBF12
+LBF11:
+    RTS
+LBF12:
+    LDA $2A
+    AND #$04
+    BNE LBF11
+    LDX #$10
+    LDA #$00
+    JSR $FCDE
+    BNE LBF11
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    NOP
+    LDX #$00
+LBF2A:
+    TXA
+    PHA
+    JSR After_Table_FB44
+    PLA
+    BCC LBF38
+    CMP #$02
+    BPL LBF9A
+    BMI LBF5D
+LBF38:
+    NOP
+    TAX
+    INX
+    CPX #$04
+    BMI LBF2A
+    RTS
+
+Table_BF40:
+    DB $00,$80,$C0,$40
+Table_BF44:
+    DB $80,$00,$40,$C0
+
+After_Table_FB44
+    LDA Table_BF40,X
+    STA $11
+    LDA Table_BF44,X
+    STA $12
+    STX $06
+    LDX #$BF
+    LDY #$58
+    LDA #$07
+    JMP $FFCA
+LBF5D:
+    LDA #$12
+    STA $0565
+    LDX #$0A
+    LDA $04A8
+    BNE LBF6B
+    INX
+    INX
+LBF6B:
+    STX $0400
+    LDA #$00
+    STA $05EF
+    SEC
+    SBC $0438
+    SEC
+    SBC $53
+    AND #$0F
+    BNE LBF81
+    CLC
+    ADC #$10
+LBF81:
+    STA $0B
+    LDA $041C
+    TAX
+    AND #$0F
+    BNE LBF90
+    TXA
+    SEC
+    SBC #$10
+    TAX
+LBF90:
+    TXA
+    AND #$F0
+    CLC
+    ADC $0B
+    STA $041C
+    RTS
+LBF9A:
+    LDA #$12
+    STA $0565
+    LDX #$0A
+    LDA $04A8
+    BEQ LBFA8
+    INX
+    INX
+LBFA8:
+    STX $0400
+    LDA #$01
+    STA $05EF
+    LDA #$00
+    SEC
+    SBC $0438
+    SEC
+    SBC $53
+    CLC
+    AND #$0F
+    STA $0B
+    TAX
+    LDA $041C
+    AND #$F0
+    CPX #$00
+    CLC
+    BEQ LBFCB
+    ADC #$10
+LBFCB:
+    SEC
+    SBC $0B
+    STA $041C
+    RTS
 
 ; --------------------------------------------------------------------
 BANK $7
