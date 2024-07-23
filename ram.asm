@@ -83,10 +83,10 @@ BASE $004A:
     hitpoints:
 
 BASE $0028:
-    control_pressed:
+    joypad_pressed:
 
 BASE $002A:
-    control_held:
+    joypad_down:
 
 BASE $0506:
     dagger_hspint:
@@ -130,3 +130,8 @@ BASE $000B:
 BASE $0008:
     tmp_y:
 
+BASE $003A
+    partner_us:
+
+BASE $0048
+    partner_jp:
