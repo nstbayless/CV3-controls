@@ -76,10 +76,17 @@ standard_crouch:
     jsr crouch_direction
 
 FROM $99A4
+standard_stair_idle:
+    ; replaces:
+        ; LDA joypad_down
+        ; AND #$40 ; down ?
     JSR stair_jumping
     NOP
     
 FROM $9AAB
+standard_stair_walk:
+    ; replaces:
+        ; JSR $9A43
     JSR stair_jumping
 
 FROM $9C19
@@ -162,28 +169,34 @@ jumping_attack:
     JMP $97A3 ; .. not necessarily air-attacking?
 
 stair_jumping:
-    ; TODO: demystify this
-
     ; pressed jump button?
     LDA joypad_pressed
-    AND #$80
+    AND #$80 ; (pressed jump)
     
     BEQ __recover_step
+    
+    ; perform jump
     LDA #$06 ; begin jump
     STA simon_state
     
-    ; double-return (why?)
+    ; double-return
+    ; (quit out of stair logic as well)
     PLA
     PLA
     RTS
+    
 __recover_step:
+    ; here we perform the detour logic to resume a standard tick
+    ; however, we must do different logic depending on state/call site
+
     LDA simon_state
-    CMP #$14 ; stair climb
-    BEQ LBFE6
+    CMP #$14 ; stair walk
+    BEQ __recover_stair_walk
+__recover_stair_idle:
     LDA joypad_down
     AND #$40
     RTS
-LBFE6:
+__recover_stair_walk:
     JMP $9A43
 
 custom_knockback:
@@ -205,7 +218,6 @@ custom_knockback:
     STA vsp_control
     LDA #$16
     STA imgsin
-LBF88:
     JMP __return_to_knockback
     
 custom_knockback_moving_upward:
@@ -220,15 +232,15 @@ __return_to_knockback:
 crouch_direction:
     LDA joypad_down
     LSR A
-    BCC LBFF3
+    BCC +
     LDX #$00
     STX facing
-LBFF3:
++
     LSR A
-    BCC LBFFB
+    BCC +
     LDX #$01
     STX facing
-LBFFB:
++
     ; (detour trampoline continue)
     JMP $840C
     
