@@ -82,11 +82,15 @@ BASE $05EB:
 BASE $004A:
     hitpoints:
 
+BASE $0081:
+    hearts:
+
 BASE $0028:
     joypad_pressed:
 
 BASE $002A:
     joypad_down:
+
 
 BASE $0506:
     dagger_hspint:
@@ -135,3 +139,12 @@ BASE $003A
 
 BASE $0048
     partner_jp:
+    
+BASE $780
+    cutscene_timer:
+    
+BASE $783
+    cutscene_input:
+    
+BASE $007B:
+    time_lo:

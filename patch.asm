@@ -58,15 +58,24 @@ FROM $9756
     ; x=0 before this
     lda #VSP_CONTROL_ZERO_VSPEED
     STA vsp_control,X
-    LDA #$00
-    STA simon_fall_objphase,X
+    STX simon_fall_objphase
     lda #$16
     sta imgsin
 zero_hspfra:
     lda #$00
     sta hspfra
+__standard_rts:
     rts
-    ;DB $FF,$FF,$FF,$FF,$FF,$60,$FF,$FF,$FF,$FF,$FF,$FF
+rts_if_cutscene:
+    lda cutscene_timer
+    beq __standard_rts
+    lda cutscene_input
+    beq __standard_rts
+    ; double-rts -- rts caller
+    pla
+    pla
+    rts
+LIMIT $9777
 
 FROM $9777
 standard_jump:
@@ -112,6 +121,7 @@ custom_jump_then_standard_jump:
     LDA #$76
     PHA
 custom_jump_jsr:
+    jsr rts_if_cutscene
     JSR zero_hspfra
     LDA joypad_down
     AND #$03 ; 1=right, 2=left
@@ -243,6 +253,8 @@ crouch_direction:
 +
     ; (detour trampoline continue)
     JMP $840C
+    
+LIMIT $C000
     
 ; --------------------------------------------------------------------
 BANK $F
