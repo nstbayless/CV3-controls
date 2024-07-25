@@ -19,7 +19,7 @@ BASE $0520:
 BASE $05D8:
     vsp_control:
 
-BASE $003A:
+BASE $003C:
     hitpoints:
     
 BASE $0400:

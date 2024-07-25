@@ -1,0 +1,7 @@
+for us and jp versions:
+- for sypha, alucard, and trevor:
+    - can turn around in mid-air
+    - falling off a cliff results in jumping instead (retain control)
+    - knockback is forgiving, directional input restored after a moment
+- 6B can be beated even if the bone dragon is defeated from the LEFTMOST platform
+- A-01 downward scroll-screen section, air-control is retained

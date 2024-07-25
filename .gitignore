@@ -1,7 +1,10 @@
 *.nes
 .patch-prev.ips
+*.ips
 *.dbg
 inc-base.asm
 *.map
 *.cdl
 *.nl
+*.zip
+cv3-controls

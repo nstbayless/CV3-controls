@@ -53,15 +53,17 @@ hcancel:
     STA hspint
     
 check_vcancel:
-    LDA joypad_down
-    AND #$80 ; holding jump button?
-    BNE __vcancel_rts
-    LDA vspint ; already moving downward?
-    BPL __vcancel_rts
-    
-    LDA #VSP_CONTROL_ZERO_VSPEED
-    STA vsp_control
-    LDA #$00
-    STA vspint
+    ifdef VCANCEL
+        LDA joypad_down
+        AND #$80 ; holding jump button?
+        BNE __vcancel_rts
+        LDA vspint ; already moving downward?
+        BPL __vcancel_rts
+        
+        LDA #VSP_CONTROL_ZERO_VSPEED
+        STA vsp_control
+        LDA #$00
+        STA vspint
+    endif
 __vcancel_rts:
     RTS

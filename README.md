@@ -1,10 +1,9 @@
 ## Castlevania 3 Improved Controls Hack
 
-### Contributing to this repository
+### Building
 
-Run the `setup.sh` script before starting in order to enable githooks.
+**Prerequisite**: you need asm6f [with rom patching directives](https://github.com/freem/asm6f/pull/30).
 
-You must supply your own ROM for Akumajou Densetsu (J). Paste the ROM 
+Please add `base-us.nes` and/or `base-jp.nes` to the repo, then run `./build.sh`.
 
-CRC32 for ROM: 2E93CE72
-SHA-1: A0F3B31D4E3B0D2CA2E8A34F91F14AD99A5AD11F
+Produces `out-us.nes`, `out-jp.nes` etc., as well as `out-us.ips` and `out-jp.ips`, and packages the result
