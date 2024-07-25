@@ -36,6 +36,12 @@ MACRO BANK8 bank
     SEEK (bank * $2000) + $10
 ENDM
 
+MACRO ATLEAST pos
+    if ($ < pos)
+        ERROR exceeded room! $ > pos
+    endif
+ENDM
+
 MACRO LIMIT pos
     if ($ > pos)
         ERROR exceeded room! $ > pos

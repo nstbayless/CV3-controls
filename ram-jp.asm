@@ -91,7 +91,6 @@ BASE $0028:
 BASE $002A:
     joypad_down:
 
-
 BASE $0506:
     dagger_hspint:
 
@@ -134,11 +133,8 @@ BASE $000B:
 BASE $0008:
     tmp_y:
 
-BASE $003A
-    partner_us:
-
 BASE $0048
-    partner_jp:
+    partner:
     
 BASE $780
     cutscene_timer:

@@ -2,7 +2,8 @@
 
 include "pre.asm"
 
-include "ram.asm"
+include "ram-jp.asm"
+include "offsets-jp.asm"
 
 VSP_CONTROL_ZERO_VSPEED=$1C
 
@@ -16,7 +17,7 @@ getting_hit:
 FROM $8307
 knockback_step:
 
-FROM $8338
+FROM detour_to_custom_knockback
     NOP
     NOP
     JSR custom_knockback
@@ -25,20 +26,16 @@ FROM $8AC6
 standard_state_0:
 
 ; in Trevor state jump table ($9376)
-FROM $9376
-trevor_jump_table:
-
-FROM $937E
+FROM trevor_jump_table
+SKIP $8
     ; state 8 (jumping)
     ; jump replacement
     DW custom_jump_then_standard_jump
 
-FROM $942F
-attack:
+FROM attack
     jsr jumping_attack
 
-FROM $94C9
-jump_attack_step:
+FROM jump_attack_step
     jsr jumping_attack
 
 FROM $952D
@@ -50,11 +47,11 @@ standard_begin_jump:
 FROM $9667
 standard_walk:
 
-FROM $974F
+FROM set_fall_state
     ; go to jump state (instead of falling state)
     lda #$08
 
-FROM $9756
+FROM fall_adjust
     ; x=0 before this
     lda #VSP_CONTROL_ZERO_VSPEED
     STA vsp_control,X
@@ -75,50 +72,42 @@ rts_if_cutscene:
     pla
     pla
     rts
-LIMIT $9777
+LIMIT standard_jump
 
-FROM $9777
-standard_jump:
-
-FROM $9920
-standard_crouch:
+FROM standard_crouch
     jsr crouch_direction
 
-FROM $99A4
-standard_stair_idle:
+FROM standard_stair_idle
     ; replaces:
         ; LDA joypad_down
         ; AND #$40 ; down ?
     JSR stair_jumping
     NOP
     
-FROM $9AAB
-standard_stair_walk:
+FROM standard_stair_walk
     ; replaces:
         ; JSR $9A43
     JSR stair_jumping
 
-FROM $9C19
-sypha_jumptable:
+FROM sypha_jumptable
 
-FROM $9C21
+SKIP $8
+    ; jump
     DW custom_jump_then_standard_jump
 
-FROM $A59B
-alucard_jumptable:
-
-FROM $A5A3
+FROM alucard_jumptable
+    SKIP $8
     DW custom_jump_then_standard_jump
 
 ; custom code
-FROM $BF39
+FROM empty_bank_e
     LDA #$01
     STA hspint,X
 custom_jump_then_standard_jump:
     ; push return address (-1)
-    LDA #$97
+    LDA #>standard_jump
     PHA
-    LDA #$76
+    LDA #<standard_jump-1
     PHA
 custom_jump_jsr:
     jsr rts_if_cutscene

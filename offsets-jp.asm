@@ -1,0 +1,16 @@
+detour_to_custom_knockback=$8338
+standard_crouch=$9920
+trevor_jump_table=$9376
+attack=$942F
+jump_attack_step=$94C9
+set_fall_state=$974F
+fall_adjust=$9756
+standard_jump=$9777
+standard_stair_idle=$99A4
+standard_stair_walk=$9AAB
+sypha_jumptable=$9C19
+alucard_jumptable=$A59B
+empty_bank_e=$BF39
+setAndSaveLowerBank=$E2D0
+PLAYER_UPDATE_BANK=$E
+CUSTOM_JUMP_BANK=$E
