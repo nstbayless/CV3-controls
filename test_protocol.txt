@@ -1,7 +1,34 @@
 for us and jp versions:
-- for sypha, alucard, and trevor:
-    - can turn around in mid-air
-    - falling off a cliff results in jumping instead (retain control)
-    - knockback is forgiving, directional input restored after a moment
-- 6B can be beated even if the bone dragon is defeated from the LEFTMOST platform
-- A-01 downward scroll-screen section, air-control is retained
+    - grant plays as normal
+    for vcancel/no-vcancel versions:
+        - for sypha, alucard, and trevor (use passwords):
+            - can turn around in mid-air
+            - falling off a cliff results in jumping instead (retain control)
+            - knockback is forgiving, directional input restored after a moment
+            - it's possible to die from enemy damage
+            - (vcancel only) it's possible let go of the jump button in order to stop rising.
+
+    - (use passwords for these, and only test the vcancel rom):
+        - 6B: post-bone dragon cutscene will complete even if the dragon is defeated from the LEFTMOST platform.
+        - A-01 downward scroll-screen section: air-control is retained
+        
+----- Passwords ------
+
+(for blank name)
+
+_ = Blank
+♥ = Heart
+W = Whip
+† = Cross
+
+A-01:
+_ ♥ _ W
+† _ _ _
+_ † ♥ _
+W † _ †
+
+6B:
+♥ † _ _
+_ _ _ †
+♥ _ † _
+_ _ ♥ _
