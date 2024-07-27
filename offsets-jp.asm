@@ -13,8 +13,13 @@ standard_stair_walk=$9AAB
 stair_walk_resume=$9A43
 sypha_jumptable=$9C19
 alucard_jumptable=$A59B
-empty_bank_e=$BF39
+empty_bank_e=$BF90 ; actually $BF39
 empty_bank_jump=$BED0 ; actually can go a bit earlier
 setAndSaveLowerBank=$E2D0
 PLAYER_UPDATE_BANK=$E
 CUSTOM_JUMP_BANK=$1
+
+; if $0, disabled
+; otherwise, between $1 and $255 enabled
+; higher values are actually less inertia, with $1 being the weightiest.
+INERTIA=$40

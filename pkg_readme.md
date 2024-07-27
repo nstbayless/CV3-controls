@@ -41,6 +41,9 @@ Similar controls hacks are available for [Castlevania](https://www.romhacking.ne
 
 ASM hacking:
     Sodium
+    
+Testing:
+    AmarthDokuro
 
 Tools:
     `fceux` and `asm6f`
