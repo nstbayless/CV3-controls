@@ -4,8 +4,7 @@ include "pre.asm"
 
 include "ram-us.asm"
 include "offsets-us.asm"
-
-VSP_CONTROL_ZERO_VSPEED=$1C
+include "_common.asm"
 
 MACRO BANKSWAP bank
     ; unclear why we | $80, but everyone else is doing it...

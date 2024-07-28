@@ -97,6 +97,10 @@ check_vcancel:
         BNE __vcancel_rts
         LDA vspint ; already moving downward?
         BPL __vcancel_rts
+        lda vsp_control
+        cmp #MINIMUM_VSP_CANCEL
+        bcc __vcancel_rts
+        
         
         LDA #VSP_CONTROL_ZERO_VSPEED
         STA vsp_control

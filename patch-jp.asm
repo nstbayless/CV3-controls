@@ -4,8 +4,7 @@ include "pre.asm"
 
 include "ram-jp.asm"
 include "offsets-jp.asm"
-
-VSP_CONTROL_ZERO_VSPEED=$1C
+include "_common.asm"
 
 MACRO BANKSWAP bank
     lda #bank
