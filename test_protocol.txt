@@ -2,12 +2,16 @@ for us and jp versions:
     - grant plays as normal
     for vcancel/no-vcancel versions:
         - for sypha, alucard, and trevor (use passwords):
-            - can turn around in mid-air
-            - falling off a cliff results in jumping instead (retain control)
-            - knockback is forgiving, directional input restored after a moment
-            - it's possible to die from enemy damage
-            - can jump off stairs
-            - (vcancel only) it's possible let go of the jump button in order to stop rising.
+            - for light/standard (no need to test heavy really):
+                - can turn around in mid-air (inertia seems appropriate for light/heavy)
+                - falling off a cliff results in jumping instead (retain control)
+                - knockback is forgiving, directional input restored after a moment
+                - it's possible to die from enemy damage
+                - can jump off stairs
+                - (vcancel only) it's possible let go of the jump button in order to stop rising.
+            - for heavy:
+                can turn around in mid-air, an
+                knockback is forgiving
 
     - (use passwords for these, and only test the vcancel rom):
         - 6B: post-bone dragon cutscene will complete even if the dragon is defeated from the LEFTMOST platform.

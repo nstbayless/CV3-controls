@@ -6,18 +6,18 @@ FROM detour_to_custom_knockback
     NOP
     JSR custom_knockback
 
+FROM attack
+    jsr jumping_attack
+
+FROM jump_attack_step
+    jsr jumping_attack
+
 ; in Trevor state jump table ($9376)
 FROM trevor_jump_table
 SKIP $8
     ; state 8 (jumping)
     ; jump replacement
     DW custom_jump_then_standard_jump
-
-FROM attack
-    jsr jumping_attack
-
-FROM jump_attack_step
-    jsr jumping_attack
 
 FROM set_fall_state
     ; go to jump state (instead of falling state)
@@ -62,7 +62,6 @@ FROM standard_stair_walk
     JSR stair_jumping
 
 FROM sypha_jumptable
-
 SKIP $8
     ; jump
     DW custom_jump_then_standard_jump

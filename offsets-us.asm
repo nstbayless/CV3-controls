@@ -18,5 +18,3 @@ empty_bank_jump=$BED0 ; we actually can go a bit earlier
 setAndSaveLowerBank=$E2E6
 PLAYER_UPDATE_BANK=$E
 CUSTOM_JUMP_BANK=$0
-
-INERTIA=$40

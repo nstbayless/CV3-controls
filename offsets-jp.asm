@@ -18,8 +18,3 @@ empty_bank_jump=$BED0 ; actually can go a bit earlier
 setAndSaveLowerBank=$E2D0
 PLAYER_UPDATE_BANK=$E
 CUSTOM_JUMP_BANK=$1
-
-; if $0, disabled
-; otherwise, between $1 and $255 enabled
-; higher values are actually less inertia, with $1 being the weightiest.
-INERTIA=$40

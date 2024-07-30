@@ -11,13 +11,14 @@ Source code and build instructions available [here](https://github.com/nstbayles
 Some of these are optional, and depend on the specific patch.
 
 - Enables all characters to control their x-velocity in mid-air while jumping (including while jump attacking)
+    - inertia options (standard/`light`/`heavy`) to adjust to preference.
 - (Optional) When releasing the jump button, one immediately starts falling again; this allows the player to make smaller hops if desired.
     - apply `vcancel` hack for this (Recommended).
 - After being knocked back, the player regains control after a split second and can angle their fall.
 - When walking off an edge, the player retains control instead of dropping straight down.
 - All characters can jump off of stairs at any point in the climb (however, it is still impossible to land on stairs, so be careful jumping from long flights of stairs over pits)
 
-Note that Grant's controls remain mostly unaltered.
+Note that Grant remain mostly unaltered.
 
 ## Compatability
 
