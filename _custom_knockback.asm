@@ -8,11 +8,10 @@ _custom_knockback:
     
     LDA #8 ; jumping
     STA simon_state
-    LDA $49
-    BEQ custom_knockback_moving_upward
-    LDA $48
-    CMP #$02
+    LDA current_player
+    cmp #$02 ; grant
     BNE custom_knockback_moving_upward
+grant_version:
     LDA #$38
     STA vsp_control
     LDA #$16

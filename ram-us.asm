@@ -9,6 +9,9 @@ BASE $0028:
 
 BASE $003A
     partner:
+    
+BASE $003B
+    partner_swap:
 
 BASE $0565:
     simon_state:
@@ -58,3 +61,6 @@ BASE $783
     
 BASE $05C1:
     simon_fall_objphase:
+    
+BASE $054E:
+    current_player:

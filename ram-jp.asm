@@ -136,6 +136,9 @@ BASE $0008:
 BASE $0048
     partner:
     
+BASE $0049
+    partner_swap:
+    
 BASE $780
     cutscene_timer:
     
@@ -144,3 +147,6 @@ BASE $783
     
 BASE $007B:
     time_lo:
+    
+BASE $054E:
+    current_player:
