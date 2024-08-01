@@ -1,0 +1,4 @@
+- motion during jump start/jump land states
+- decrease jumping sprite hitbox vertically (looks like it should be able to land on some platforms that it can't)
+    - this will mean transitioning into the crouch state sometimes?
+- landing on stairs
