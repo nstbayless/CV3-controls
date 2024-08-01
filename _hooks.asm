@@ -61,6 +61,17 @@ FROM standard_stair_walk
         ; JSR stair_walk_resume
     JSR stair_jumping
 
+ifdef REDUCE_JUMP_LAG
+
+FROM standard_begin_jump
+    lda #$8 ; jump state
+    jsr reduce_jump_lag
+
+FROM walk_begin_jump
+    jmp reduce_jump_lag_before_jump
+    
+endif
+
 FROM sypha_jumptable
 SKIP $8
     ; jump

@@ -13,3 +13,5 @@ endif
 ifdef INERTIA_32
     INERTIA=32
 endif
+
+REDUCE_JUMP_LAG=1

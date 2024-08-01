@@ -7,6 +7,15 @@ include "_hooks.asm"
 ; custom code
 FROM empty_bank_e
 
+reduce_jump_lag_before_jump:
+    jmp setStateJumpIfCanJump
+_j_to_apply_horizontal_motion
+    jmp apply_horizontal_motion
+
+reduce_jump_lag:
+    sta simon_state
+    bne _j_to_apply_horizontal_motion ; guaranteed
+
 stair_jumping:
     ; pressed jump button?
     LDA joypad_pressed
