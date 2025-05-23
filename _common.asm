@@ -14,4 +14,6 @@ ifdef INERTIA_32
     INERTIA=32
 endif
 
-REDUCE_JUMP_LAG=1
+; applies motion on same frame as jump,
+; but seems to cause a graphical glitch sometimes :/
+;REDUCE_JUMP_LAG=1
